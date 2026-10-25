@@ -94,6 +94,53 @@ a{color:var(--cyan)}
 #beginner .week div{background:linear-gradient(var(--panel2),var(--panel2)) padding-box,linear-gradient(100deg,#22c55e,#d946ef) border-box;border:1px solid transparent}
 #metrics .card,#metrics .photo-frame{background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(100deg,#eab308,#a855f7) border-box}
 #research-areas .card{background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(100deg,#f97316,#38bdf8) border-box}
+#transition .card{background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(100deg,#10b981,#e11d48) border-box}
+/* closing personal note: faded chapter */
+#personal-note .card{opacity:.8}
+/* chapter tiles: subtle pass-by glow, then back to normal */
+#mindset{--glow-c1:rgba(245,158,11,.30);--glow-c2:rgba(59,130,246,.26)}
+#mentality{--glow-c1:rgba(250,204,21,.30);--glow-c2:rgba(139,92,246,.26)}
+#protocol{--glow-c1:rgba(45,212,191,.30);--glow-c2:rgba(244,63,94,.26)}
+#training{--glow-c1:rgba(239,68,68,.30);--glow-c2:rgba(6,182,212,.26)}
+#nutrition{--glow-c1:rgba(56,189,248,.30);--glow-c2:rgba(251,146,60,.26)}
+#hydration{--glow-c1:rgba(34,211,238,.30);--glow-c2:rgba(251,113,133,.26)}
+#supplements{--glow-c1:rgba(236,72,153,.30);--glow-c2:rgba(132,204,22,.26)}
+#sleep{--glow-c1:rgba(129,140,248,.30);--glow-c2:rgba(253,186,116,.26)}
+#beginner{--glow-c1:rgba(34,197,94,.30);--glow-c2:rgba(217,70,239,.26)}
+#metrics{--glow-c1:rgba(234,179,8,.30);--glow-c2:rgba(168,85,247,.26)}
+#research-areas{--glow-c1:rgba(249,115,22,.30);--glow-c2:rgba(56,189,248,.26)}
+#transition{--glow-c1:rgba(16,185,129,.30);--glow-c2:rgba(225,29,72,.26)}
+@keyframes tileGlow{
+  0%{box-shadow:0 0 0 var(--glow-c1,rgba(56,189,248,0))}
+  15%{box-shadow:0 0 30px var(--glow-c1,rgba(56,189,248,.28)),0 0 44px var(--glow-c2,rgba(251,146,60,.20))}
+  55%{box-shadow:0 0 28px var(--glow-c1,rgba(56,189,248,.26)),0 0 40px var(--glow-c2,rgba(251,146,60,.18))}
+  75%{box-shadow:0 0 16px var(--glow-c1,rgba(56,189,248,.14)),0 0 22px var(--glow-c2,rgba(251,146,60,.10))}
+  100%{box-shadow:0 0 0 var(--glow-c1,rgba(56,189,248,0))}
+}
+@keyframes tileGlowFlat{
+  0%{box-shadow:0 0 0 var(--glow-c1,rgba(56,189,248,0))}
+  15%{box-shadow:0 0 30px var(--glow-c1,rgba(56,189,248,.28)),0 0 44px var(--glow-c2,rgba(251,146,60,.20))}
+  55%{box-shadow:0 0 28px var(--glow-c1,rgba(56,189,248,.26)),0 0 40px var(--glow-c2,rgba(251,146,60,.18))}
+  75%{box-shadow:0 0 16px var(--glow-c1,rgba(56,189,248,.14)),0 0 22px var(--glow-c2,rgba(251,146,60,.10))}
+  100%{box-shadow:0 0 0 var(--glow-c1,rgba(56,189,248,0))}
+}
+.tile-glow{animation:tileGlow 3.5s ease}
+.tile-glow-flat{animation:tileGlowFlat 3.5s ease}
+/* pulsating chapter dots (mentality + protocol tiles, chapter-colored) */
+#mentality{--dot-c:#facc15;--dot-ring:rgba(250,204,21,.55)}
+#protocol{--dot-c:#2dd4bf;--dot-ring:rgba(45,212,191,.55)}
+#mentality .card,#protocol .card{position:relative}
+.pulse-dot{position:absolute;top:14px;right:14px;width:10px;height:10px;border-radius:50%;background:var(--dot-c);animation:pulseDot 2s ease-out infinite}
+@keyframes pulseDot{
+  0%{box-shadow:0 0 0 0 var(--dot-ring)}
+  70%{box-shadow:0 0 0 12px rgba(0,0,0,0)}
+  100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}
+}
+/* training lifts: wide horizontal rows so text reads across, not down narrow columns */
+#training .g5{grid-template-columns:1fr}
+#training .g5 .card{display:grid;grid-template-columns:64px 1fr;column-gap:16px;align-items:start}
+#training .g5 .card .ic{grid-row:span 2;font-size:36px;line-height:1}
+#training .g5 .card h3{margin:2px 0 6px}
 .h-cards{display:flex;flex-direction:column;gap:14px;margin-top:14px}
 .h-cards .card{display:flex;gap:18px;align-items:flex-start}
 .h-cards .card>div:last-child{min-width:0}
@@ -180,11 +227,17 @@ details p{color:var(--ink2);margin:8px 0 0}
   .reveal{opacity:1;transform:none;transition:none}
   .card{transition:none}
   .bgtrack{animation:none}
+  .tile-glow,.tile-glow-flat{animation:none}
+  .pulse-dot{animation:none}
 }
 @media (max-width:820px){
   .g3,.g5,.g6,.week{grid-template-columns:repeat(2,1fr)}
   .split{grid-template-columns:1fr}
-  .nav-links{flex-basis:100%}
+  /* mobile chapter bar: one compact row, chapters scroll left-right */
+  .nav-in{flex-wrap:nowrap;padding:10px 12px;gap:10px}
+  .nav-links{flex:1 1 auto;flex-basis:auto;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{flex:0 0 auto;white-space:nowrap}
 }
 @media (max-width:520px){
   .g2,.g3,.g5,.g6,.week{grid-template-columns:1fr 1fr}
@@ -193,7 +246,7 @@ details p{color:var(--ink2);margin:8px 0 0}
   .macro-bar{flex-wrap:wrap}
   .macro-bar div{flex:1 1 40%}
   /* long-text cards read better stacked on phones */
-  #supplements .grid,#beginner .grid,#metrics .grid,#loose-skin,#research-areas .grid{grid-template-columns:1fr}
+  #supplements .grid,#beginner .grid,#metrics .grid,#loose-skin,#research-areas .grid,#transition .grid{grid-template-columns:1fr}
   .h-cards .card{flex-direction:column;gap:8px}
 }
 </style>
@@ -210,7 +263,7 @@ details p{color:var(--ink2);margin:8px 0 0}
 <aside class="sidebar">
   <div class="side-brand">240 <span>→</span> 180</div>
   <nav class="side-links">
-    <a href="#mindset"><span class="side-num">01</span>⚠️ Mindset</a><a href="#mentality"><span class="side-num">02</span>🧠 Mentality</a><a href="#protocol"><span class="side-num">03</span>💉 My dosing protocol</a><a href="#training"><span class="side-num">04</span>🏋️ Training</a><a href="#nutrition"><span class="side-num">05</span>🍽️ Nutrition</a><a href="#hydration"><span class="side-num">06</span>💧 Hydration</a><a href="#supplements"><span class="side-num">07</span>💊 Supplements</a><a href="#sleep"><span class="side-num">08</span>🌙 Sleep</a><a href="#beginner"><span class="side-num">09</span>🌱 Beginner</a><a href="#metrics"><span class="side-num">10</span>📊 Metrics</a><a href="#research-areas"><span class="side-num">11</span>🔬 Research Areas</a><a href="#bottom-line"><span class="side-num">12</span>⭐ The Bottom Line</a>
+    <a href="#mindset"><span class="side-num">01</span>⚠️ Mindset</a><a href="#mentality"><span class="side-num">02</span>🧠 Mentality</a><a href="#protocol"><span class="side-num">03</span>💉 My dosing protocol</a><a href="#training"><span class="side-num">04</span>🏋️ Training</a><a href="#nutrition"><span class="side-num">05</span>🍽️ Nutrition</a><a href="#hydration"><span class="side-num">06</span>💧 Hydration</a><a href="#supplements"><span class="side-num">07</span>💊 Supplements</a><a href="#sleep"><span class="side-num">08</span>🌙 Sleep</a><a href="#beginner"><span class="side-num">09</span>🌱 Beginner</a><a href="#metrics"><span class="side-num">10</span>📊 Metrics</a><a href="#research-areas"><span class="side-num">11</span>🔬 Research Areas</a><a href="#transition"><span class="side-num">12</span>💪 Muscle growth &amp; maintenance</a><a href="#bottom-line"><span class="side-num">13</span>⭐ The Bottom Line</a><a href="#personal-note"><span class="side-num">14</span>🧬 A personal note</a>
   </nav>
   <button class="theme-btn" aria-label="Toggle light and dark theme">☾ Dark</button>
   <p class="side-note">Personal journey, not medical advice.</p>
@@ -218,7 +271,7 @@ details p{color:var(--ink2);margin:8px 0 0}
 <nav class="nav"><div class="nav-in">
   <div class="brand">240 <span>→</span> 180</div>
   <div class="nav-links">
-    <a href="#mindset">Mindset</a><a href="#mentality">Mentality</a><a href="#protocol">Protocol</a><a href="#training">Training</a><a href="#nutrition">Nutrition</a><a href="#hydration">Hydration</a><a href="#supplements">Supplements</a><a href="#sleep">Sleep</a><a href="#beginner">Beginner</a><a href="#metrics">Metrics</a><a href="#research-areas">Research Areas</a><a href="#bottom-line">The Bottom Line</a>
+    <a href="#mindset">Mindset</a><a href="#mentality">Mentality</a><a href="#protocol">Protocol</a><a href="#training">Training</a><a href="#nutrition">Nutrition</a><a href="#hydration">Hydration</a><a href="#supplements">Supplements</a><a href="#sleep">Sleep</a><a href="#beginner">Beginner</a><a href="#metrics">Metrics</a><a href="#research-areas">Research Areas</a><a href="#transition">Transitioning</a><a href="#bottom-line">The Bottom Line</a><a href="#personal-note">A personal note</a>
   </div>
   <button class="theme-btn" aria-label="Toggle light and dark theme">☾ Dark</button>
 </div></nav>
@@ -241,7 +294,7 @@ details p{color:var(--ink2);margin:8px 0 0}
 </header>
 
 <section id="mindset" class="reveal">
-  <div class="sec-head"><div class="badge">⚠️</div><div><h2>Take It Seriously</h2><p>Retatrutide is an investigational medication. This card is about respect for that fact, not hype.</p></div></div>
+  <div class="sec-head"><div class="badge">⚠️</div><div><h2>Take It Seriously</h2><p>Weight loss is hard, and Retatrutide makes a huge difference. I decided to take my journey really seriously, so here’s what I did. Everyone’s approach is different, but this was my personal playbook.</p></div></div>
   <div class="grid g3">
     <div class="card"><div class="ic">🔍</div><h3>Understand the potential risks</h3><p>Investigational means researchers are still studying a compound’s safety and effectiveness. 🧬 I believe understanding the science, knowing what is and isn’t established, and making informed decisions are essential parts of any weight-loss journey.</p></div>
     <div class="card"><div class="ic">❤️</div><h3>Health over rapid weight loss</h3><p>My goal was never just to watch the number on the scale drop. 💪 I wanted to improve my body composition, build strength, and protect my long-term health rather than focus entirely on how quickly I could lose weight.</p></div>
@@ -252,13 +305,13 @@ details p{color:var(--ink2);margin:8px 0 0}
 
 <section id="mentality" class="reveal">
   <div class="sec-head"><div class="badge">🧠</div><div><h2>My Mentality</h2><p>Why I took this seriously</p></div></div>
-  <div class="card">
+  <div class="card"><span class="pulse-dot"></span>
     <p>My motivation comes from knowing what it feels like to lose control of my health and how much it affected my everyday life. 💭 The only time I was truly fit was between 2015 and 2017 💪, but after hovering around 200 pounds in 2019, I gained another 30–40 pounds during the pandemic, eventually reaching 240 pounds ⚖️. Being obese wasn't just about how I looked; it meant constant food noise 🍔, overheating while walking around the mall 🥵, painful chafing, acid reflux so severe that I had to change how I slept 😣, and joint pain that made everyday activities miserable.</p>
   </div>
-  <div class="card" style="margin-top:14px">
+  <div class="card" style="margin-top:14px"><span class="pulse-dot"></span>
     <p>My gout attacks were especially brutal 🦶, sometimes making even a blanket touching my foot feel like shards of glass, leaving me dependent on crutches just to get around 🩼. I don't want to go back to living that way. 🔥 My mentality is that I have to take my health seriously because I've experienced firsthand what happens when I don't.</p>
   </div>
-  <div class="card" style="margin-top:14px">
+  <div class="card" style="margin-top:14px"><span class="pulse-dot"></span>
     <p>I'm sharing my journey because I want to show people that change is possible, that you don't have to accept feeling miserable in your own body, and that sometimes the strongest motivation comes from remembering exactly where you never want to be again. 🎯</p>
   </div>
 </section>
@@ -267,41 +320,45 @@ details p{color:var(--ink2);margin:8px 0 0}
   <div class="sec-head"><div class="badge">💉</div><div><h2>My dosing protocol</h2><p>What I actually did — my personal record, not a protocol to follow.</p></div></div>
   <div class="warn"><strong>Personal record only:</strong> These are the doses I took, written down as I recorded them. Retatrutide is investigational, and this is not a recommendation, a starting point, or a guide for anyone else. Talk to a qualified healthcare professional before making decisions about medications.</div>
   <div class="grid g2">
-    <div class="card"><div class="ic">🐢</div><h3>Start low, build up slowly</h3><p>Starting low is important — it lets the drug build up in your body gradually. I started at 2.0 mg and stepped up week by week, instead of jumping straight to a high dose.</p></div>
-    <div class="card"><div class="ic">🎯</div><h3>The sweet spot, not the highest dose</h3><p>Getting to a high dose isn't the goal — for me it just meant more weight loss than I needed, and more money spent. My sweet spot was 4 mg to 8 mg weekly, and within that range, 5 mg was where I landed — I held 5 mg for 6–8 weeks. I didn't have to go on a higher dose, because it was my training, diet, and sleep that lost the weight, not a bigger dose.</p></div>
+    <div class="card"><span class="pulse-dot"></span><div class="ic">🐢</div><h3>Start low, build up slowly</h3><p>Starting low is important — it lets the drug build up in your body gradually. I started at 2.0 mg and stepped up week by week, instead of jumping straight to a high dose.</p></div>
+    <div class="card"><span class="pulse-dot"></span><div class="ic">🎯</div><h3>The sweet spot, not the highest dose</h3><p>Getting to a high dose isn't the goal — for me it just meant more weight loss than I needed, and more money spent. My sweet spot was 4 mg to 8 mg weekly, and within that range, 5 mg was where I landed — I held 5 mg for 6–8 weeks. I didn't have to go on a higher dose, because it was my training, diet, and sleep that lost the weight, not a bigger dose.</p></div>
   </div>
   <h3 style="margin-top:22px">Vial splits — how the milligrams added up</h3>
   <div class="grid g3">
-    <div class="card"><div class="ic">💉</div><h3>10 mg vial</h3><p>2 + 2.5 + 2.5 + 3 = 10 mg<br>1 + 1 + 2 + 2.5 + 3.5 = 10 mg<br>2 + 2 + 2 + 2 + 2 = 10 mg</p></div>
-    <div class="card"><div class="ic">💉</div><h3>15 mg vial</h3><p>2 + 2.5 + 2.5 + 3.5 + 4.5 = 15 mg</p></div>
-    <div class="card"><div class="ic">💉</div><h3>20 mg vial</h3><p>5 + 5 + 5 + 5 = 20 mg<br>4 + 4.5 + 4.5 + 5.5 or 6 = 19.5 mg or 20 mg</p></div>
+    <div class="card"><span class="pulse-dot"></span><div class="ic">💉</div><h3>10 mg vial</h3><p>2 + 2.5 + 2.5 + 3 = 10 mg<br>1 + 1 + 2 + 2.5 + 3.5 = 10 mg<br>2 + 2 + 2 + 2 + 2 = 10 mg</p></div>
+    <div class="card"><span class="pulse-dot"></span><div class="ic">💉</div><h3>15 mg vial</h3><p>2 + 2.5 + 2.5 + 3.5 + 4.5 = 15 mg</p></div>
+    <div class="card"><span class="pulse-dot"></span><div class="ic">💉</div><h3>20 mg vial</h3><p>5 + 5 + 5 + 5 = 20 mg<br>4 + 4.5 + 4.5 + 5.5 or 6 = 19.5 mg or 20 mg</p></div>
   </div>
   <h3 style="margin-top:22px">My weekly doses</h3>
-  <div class="card">
+  <div class="card"><span class="pulse-dot"></span>
     <ul class="proto">
-      <li><b>May 23</b> — 2.0 mg — Start 10 mg</li>
-      <li><b>May 30</b> — 2.5 mg</li>
-      <li><b>June 06</b> — 2.5 mg</li>
-      <li><b>June 13</b> — 3.0 mg</li>
-      <li><b>June 20</b> — 4.5 mg</li>
-      <li><b>June 27</b> — 5.5 mg — Start 20 mg (1st)</li>
-      <li><b>July 04</b> — 4.5 mg</li>
-      <li><b>July 11</b> — 5.0 mg</li>
-      <li><b>July 18</b> — 5.0 mg</li>
-      <li><b>July 25</b> — 5.0 mg — Start 20 mg (2nd)</li>
-      <li><b>Aug 01</b> — 5.0 mg</li>
-      <li><b>Aug 08</b> — 5.0 mg</li>
-      <li><b>Aug 15</b> — 5.0 mg</li>
-      <li><b>Aug 22</b> — 5.0 mg — Start 20 mg (3rd)</li>
-      <li><b>Aug 29</b> — 4.0 mg</li>
-      <li><b>Sept 05</b> — 3.0 mg</li>
-      <li><b>Sept 12</b> — 2.5 mg</li>
+      <li><b>🌸 May 23</b> — 2.0 mg — Start 10 mg</li>
+      <li><b>🌸 May 30</b> — 2.5 mg</li>
+      <li><b>☀️ June 06</b> — 2.5 mg</li>
+      <li><b>☀️ June 13</b> — 3.0 mg</li>
+      <li><b>☀️ June 20</b> — 4.5 mg</li>
+      <li><b>☀️ June 27</b> — 5.5 mg — Start 20 mg (1st)</li>
+      <li><b>🎆 July 04</b> — 4.5 mg</li>
+      <li><b>🎆 July 11</b> — 5.0 mg</li>
+      <li><b>🎆 July 18</b> — 5.0 mg</li>
+      <li><b>🎆 July 25</b> — 5.0 mg — Start 20 mg (2nd)</li>
+      <li><b>🌻 Aug 01</b> — 5.0 mg</li>
+      <li><b>🌻 Aug 08</b> — 5.0 mg</li>
+      <li><b>🌻 Aug 15</b> — 5.0 mg</li>
+      <li><b>🌻 Aug 22</b> — 5.0 mg — Start 20 mg (3rd)</li>
+      <li><b>🌻 Aug 29</b> — 4.0 mg</li>
+      <li><b>🍂 Sept 05</b> — 3.0 mg</li>
+      <li><b>🍂 Sept 12</b> — 2.5 mg</li>
+      <li><b>🍂 Sept 19</b> — 2.0 mg — Tapering off Retatrutide</li>
+      <li><b>🍂 Sept 26</b> — 1.5 mg</li>
+      <li><b>🎃 Oct 03</b> — 1.0 mg</li>
+      <li><b>🎃 Oct 10</b> — 1.0 mg</li>
     </ul>
   </div>
   <h3 style="margin-top:22px">Tapering off &amp; maintenance</h3>
   <div class="grid g2">
-    <div class="card"><div class="ic">📉</div><h3>Tapering off</h3><p>To taper off, I used a 10 mg retatrutide dose, stepping down through the lower doses at the end of the timeline (5.0 → 4.0 → 3.0 → 2.5 mg).</p></div>
-    <div class="card"><div class="ic">🔄</div><h3>Maintenance: switch to tirzepatide</h3><p>If you want maintenance, switch to tirzepatide. My sweet spot there is 1.25 mg weekly — or 2.5 or 5 mg. If you're working up to 5 mg weekly, titrate up there slowly.</p></div>
+    <div class="card"><span class="pulse-dot"></span><div class="ic">📉</div><h3>Tapering off &amp; maintenance</h3><p>Rather than stopping abruptly, I gradually reduced my reported retatrutide doses as I transitioned toward maintenance. 🍂 My timeline shows the final steps down from 2.0 mg to 1.5 mg, then 1.0 mg, which I maintained for the following week.</p></div>
+    <div class="card"><span class="pulse-dot"></span><div class="ic">🔄</div><h3>Maintenance: switch to tirzepatide</h3><p>If you want maintenance, switch to tirzepatide. My sweet spot there is 1.25 mg weekly — or 2.5 or 5 mg. If you're working up to 5 mg weekly, titrate up there slowly.</p></div>
   </div>
   <p class="note">There is no established tapering guidance; the lower doses at the end are simply what my record shows.</p>
 </section>
@@ -309,21 +366,21 @@ details p{color:var(--ink2);margin:8px 0 0}
 <section id="training" class="reveal">
   <div class="sec-head"><div class="badge">🏋️</div><div><h2>Build Your Foundation</h2><p>Five compound lifts, two simple workout days, and cardio you can actually enjoy.</p></div></div>
   <div class="grid g5">
-    <div class="card"><div class="ic">🏋️</div><h3>Squats</h3><p>Legs and core. The base of the lower-body days.</p></div>
-    <div class="card"><div class="ic">💪</div><h3>Deadlifts</h3><p>Full-body pulling strength, hips and back.</p></div>
-    <div class="card"><div class="ic">🛏️</div><h3>Bench Press</h3><p>Upper-body pushing strength, chest and arms.</p></div>
-    <div class="card"><div class="ic">🧗</div><h3>Pull-Ups</h3><p>Upper-body pulling strength, back and arms.</p></div>
-    <div class="card"><div class="ic">⬆️</div><h3>Overhead Press</h3><p>Shoulder pressing strength, standing tall.</p></div>
+    <div class="card"><div class="ic">🏋️</div><h3>Squats</h3><p>Legs, glutes, and core. Builds lower-body strength while developing the quadriceps and glutes, helping shape the thighs and create fuller, stronger-looking legs and glutes. For both men and women, squats contribute to a balanced, athletic physique.</p></div>
+    <div class="card"><div class="ic">💪</div><h3>Deadlifts</h3><p>Back, glutes, hamstrings, and core. Develops full-body pulling strength while building the posterior chain. Deadlifts can help create stronger-looking glutes, more developed hamstrings, and a thicker, stronger back, supporting an overall athletic shape in both men and women.</p></div>
+    <div class="card"><div class="ic">🛏️</div><h3>Bench Press</h3><p>Chest, shoulders, and triceps. Builds upper-body pushing strength while developing the chest and arms. It can create a fuller chest and more defined upper body in men, while helping women build upper-body strength, shoulder definition, and balanced proportions.</p></div>
+    <div class="card"><div class="ic">🧗</div><h3>Pull-Ups</h3><p>Back, biceps, and grip. Builds the lats and upper back, helping create a wider, more defined upper body. In both men and women, developing the back and shoulders can contribute to a more noticeable V-shaped silhouette and improved upper-body proportions.</p></div>
+    <div class="card"><div class="ic">⬆️</div><h3>Overhead Press</h3><p>Shoulders, triceps, and core. Develops the shoulder muscles and arms, contributing to broader, rounder-looking shoulders and a more defined upper body. For both men and women, stronger shoulders can improve overall proportions and complement the waistline visually.</p></div>
   </div>
   <div class="split" style="margin-top:14px">
-    <div class="workout"><h3>Workout A</h3><ul><li>Squats</li><li>Bench Press</li></ul><span class="sets">3 sets × 10 reps — example starting structure</span></div>
-    <div class="workout"><h3>Workout B</h3><ul><li>Deadlifts</li><li>Overhead Press</li></ul><span class="sets">3 sets × 10 reps — example starting structure</span></div>
+    <div class="workout"><h3>Workout A</h3><ul><li>Squats</li><li>Bench Press</li><li>Pull-Ups</li></ul><span class="sets">3 sets × 10 reps — example starting structure</span></div>
+    <div class="workout"><h3>Workout B</h3><ul><li>Deadlifts</li><li>Overhead Press</li><li>Pull-Ups</li></ul><span class="sets">3 sets × 10 reps — example starting structure</span></div>
   </div>
   <p class="note">Adjust volume and intensity to your own ability. These are examples, not mandatory prescriptions.</p>
   <div class="cardio-strip"><span>🏃 10-minute jog</span><span>🚶 20-minute walk</span><span>🏊 30-minute swim</span></div>
   <p class="note">Start at your current fitness level and prioritize proper technique and recovery.</p>
-  <div class="card" style="margin-top:14px"><div class="ic">🛡️</div><h3>Form first, weight second</h3><p>Proper form is important — especially if you're a beginner, start on a light weight. You want to minimize the risk of injury by focusing on proper technique, and by stretching and warming up before lifting.</p></div>
-  <div class="card" style="margin-top:14px"><div class="ic">🎯</div><h3>Compound lifts first — and essentials on tired days</h3><p>Focusing on compound lifts is important: the five lifts above — squats, deadlifts, bench press, pull-ups, overhead press — each work multiple muscle groups at once, which is why they deserve your focus. Isolation work is optional extra. If you feel like doing more, do more. But if you're feeling lazy or tired, just focus on the essentials — and by essentials, I mean the compound lifts above — limited to two compound movements per workout session, so you get in and out of the gym, and call it a win. You can also perform supersets to save time — pair two exercises back-to-back with little rest in between, like combining pull-ups with bicep curls.</p></div>
+  <div class="split" style="margin-top:14px"><div class="card"><div class="ic">🛡️</div><h3>Form first, weight second</h3><p>Proper form is important — especially if you're a beginner, start on a light weight. You want to minimize the risk of injury by focusing on proper technique, and by stretching and warming up before lifting.</p></div>
+  <div class="card"><div class="ic">🎯</div><h3>Compound lifts first — and essentials on tired days</h3><p>Focusing on compound lifts is important: the five lifts above — squats, deadlifts, bench press, pull-ups, overhead press — each work multiple muscle groups at once, which is why they deserve your focus. Isolation work is optional extra. If you feel like doing more, do more. But if you're feeling lazy or tired, just focus on the essentials — and by essentials, I mean the compound lifts above — limited to two compound movements per workout session, so you get in and out of the gym, and call it a win. You can also perform supersets to save time — pair two exercises back-to-back with little rest in between, like combining pull-ups with bicep curls.</p></div></div>
   <h3 style="margin:28px 0 4px;font-size:1.2rem">Loose skin — built into the plan</h3>
   <p class="note">Loose skin was part of the plan, not an afterthought: my regimen is built to eliminate it — especially when you combine consistent training with a high-protein diet.</p>
   <div class="grid g3" id="loose-skin" style="margin-top:14px">
@@ -488,7 +545,7 @@ details p{color:var(--ink2);margin:8px 0 0}
   </div>
 </section>
 
-<section id="bottom-line" class="reveal">
+<section id="transition" class="reveal">   <div class="sec-head"><div class="badge">💪</div><div><h2>Transitioning to muscle growth &amp; maintenance</h2></div></div> <div class="card"><p>Now that my focus has shifted from weight loss to body composition, I’m exploring Tesamorelin + Ipamorelin at a 2:1 ratio as part of my interest in growth hormone signaling and muscle development. 🧬 I’m also using GHK-Cu for skincare and tirzepatide for weight maintenance while continuing to prioritize resistance training, adequate protein, and recovery. 🎯 My goal is to maintain the progress I’ve made, improve my body composition, build muscle, and support my skin health as I move into this next phase.</p></div> <div class="grid g2"><div class="card"><div class="ic">🧬</div><h3>My next phase: body composition, muscle growth &amp; recovery</h3><p>Tesamorelin + Ipamorelin — My current focus is exploring this combination in the context of visceral fat and growth hormone signaling. Tesamorelin stimulates the body’s growth hormone release pathway and has an approved medical use for reducing excess abdominal fat in adults with HIV-associated lipodystrophy. Ipamorelin is a growth hormone secretagogue that signals the body to release growth hormone. However, their combination is not proven to reduce visceral fat or build muscle in otherwise healthy people.</p></div><div class="card"><div class="ic">🔄</div><h3>Next: CJC-1295 without DAC + Ipamorelin</h3><p>After this phase, I’m interested in learning about CJC-1295 without DAC alongside Ipamorelin. CJC-1295 is designed to stimulate the body’s growth hormone-releasing hormone pathway, while Ipamorelin acts through a different pathway to stimulate growth hormone release. The idea is to explore how these pathways work together, although the benefits and safety of this combination remain unestablished.</p></div><div class="card"><div class="ic">💪</div><h3>The bigger goal: pushing my natural potential</h3><p>I want to see how far I can take my own body through consistent training, nutrition, recovery, and carefully evaluating the science behind these compounds before considering more potent hormone-related options.</p></div><div class="card"><div class="ic">🧪</div><h3>HGH (human growth hormone)</h3><p>HGH is the actual growth hormone itself, rather than a compound that signals the body to release it. Prescription HGH has specific medical uses, but using it for bodybuilding can cause problems such as swelling, joint pain, insulin resistance, and other complications.</p></div><div class="card"><div class="ic">⚡</div><h3>IGF-1 LR3</h3><p>This is a modified, long-acting version of insulin-like growth factor 1, a molecule involved in growth and tissue development downstream of growth hormone. It is experimental and is not an established or approved bodybuilding treatment. Because IGF-1 affects cell growth and blood sugar regulation, its risks can be significant.</p></div><div class="card"><div class="ic">🎯</div><h3>My objective</h3><p>to move from weight loss into a deliberate muscle-building and body-composition phase, understand what each compound actually does, and avoid confusing theoretical mechanisms with proven results. HGH and IGF-1 LR3 are possibilities I’m interested in learning about—not decisions I’ve already made.</p></div></div> </section>  <section id="bottom-line" class="reveal">
   <div class="sec-head"><div class="badge">⭐</div><div><h2>The Bottom Line</h2><p>Everything above, in one place.</p></div></div>
   <div class="card">
     <ul class="proto">
@@ -501,13 +558,13 @@ details p{color:var(--ink2);margin:8px 0 0}
       <li><b>😴 Sleep</b> — 7–9 hours, with morning sunlight and a sunset walk setting the clock.</li>
       <li><b>🌱 Beginner</b> — You don't need six days a week: resistance 2–3 days, cardio 2–3 days, protein, water, and sleep. Manageable habits, kept over time.</li>
       <li><b>📊 Results</b> — Weight 240.4 → 178.0 lbs (−62.4 lbs).</li>
-      <li><b>🔬 Research Areas</b> — An educational overview, not a protocol: weight loss &amp; maintenance, muscle &amp; body composition, recovery &amp; tissue health, skin &amp; appearance.</li>
+      <li><b>🔬 Research Areas</b> — An educational overview, not a protocol: weight loss &amp; maintenance, muscle &amp; body composition, recovery &amp; tissue health, skin &amp; appearance.</li> <li><b>💪 Transitioning</b> — Focus shifted to body composition: exploring tesamorelin + ipamorelin, GHK-Cu for skin, tirzepatide for maintenance, with resistance training, adequate protein, and recovery. Next-phase interests (CJC-1295, HGH, IGF-1 LR3) are learning topics, not decisions.</li>
     </ul>
   </div>
   <p style="text-align:center;font-size:1.15rem;font-weight:700;margin-top:26px">The goal isn't just to weigh less. It's to build healthier habits you can maintain over time.</p>
 </section>
 
-<div class="disclaimer"><strong>Personal experience, not medical advice.</strong> This infographic shares personal experience and general educational information, not medical advice. Retatrutide remains investigational, and its safety and effectiveness are still being studied. Personal results do not establish safety, efficacy, or suitability for others. Consult a qualified healthcare professional before making decisions about medications, supplements, exercise, or major dietary changes. Any doses or amounts shown reflect personal experience only, not a recommendation. Individual results vary and are not guaranteed. Compounds discussed as research areas are not established treatments, and nothing here is a recommendation to use or combine them.</div>
+<section id="personal-note" class="reveal">   <div class="sec-head"><div class="badge">🧬</div><div><h2>A personal note before you go</h2></div></div>   <div class="card">     <p>I’m sharing my journey because I know how overwhelming it can feel to navigate weight loss, body composition, and the world of peptides when you’re trying to figure out what works for you. Everything in this infographic reflects my personal experience and is intended for educational purposes only—not medical advice or a substitute for professional guidance.</p>     <p>My results are unique to me. Your genetics, health, starting point, habits, and individual response may be very different, and my experience does not prove that a compound is safe, effective, or right for you. Retatrutide remains investigational, and other compounds discussed here may also lack established safety data or approved uses for the goals described.</p>     <p>Any doses or amounts shown document my reported experience; they are not dosing instructions or recommendations to use, purchase, or combine these compounds. Always consult a qualified healthcare professional before making decisions about medications, supplements, exercise, or significant dietary changes. Individual results vary, and no outcome is guaranteed.</p>     <p><strong>My goal is to share what I’ve learned, encourage you to ask better questions, and help you approach your own journey with curiosity and informed judgment—not to tell you what to take or promise you the same results.</strong> Your health and your journey are your own. 💙</p>   </div> </section>
 
 <button class="to-top" id="toTopBtn" type="button">↑ Back to Top</button>
 
@@ -560,6 +617,26 @@ details p{color:var(--ink2);margin:8px 0 0}
   document.querySelectorAll(".reveal").forEach(function(el){
     if(reduced){ el.classList.add("in"); } else { io.observe(el); }
   });
+  /* chapter tiles: subtle glow as each chapter is passed, then back to normal */
+  if(!reduced){
+    var glowIO=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.querySelectorAll(".card,.photo-frame,.sleep-panel").forEach(function(t){
+            t.classList.remove("tile-glow"); void t.offsetWidth; t.classList.add("tile-glow");
+          });
+          e.target.querySelectorAll(".workout,.week div").forEach(function(t){
+            t.classList.remove("tile-glow-flat"); void t.offsetWidth; t.classList.add("tile-glow-flat");
+          });
+        }
+      });
+    },{rootMargin:"-20% 0px -70% 0px"});
+    document.querySelectorAll("section[id]").forEach(function(s){ glowIO.observe(s); });
+    document.addEventListener("animationend",function(ev){
+      if(ev.animationName==="tileGlow"){ ev.target.classList.remove("tile-glow"); }
+      if(ev.animationName==="tileGlowFlat"){ ev.target.classList.remove("tile-glow-flat"); }
+    });
+  }
   if(!reduced){
     var e=document.getElementById("endN"), l=document.getElementById("lossN");
     var t0=null;
