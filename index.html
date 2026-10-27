@@ -255,7 +255,7 @@ details p{color:var(--ink2);margin:8px 0 0}
 .dose-svg{width:100%;height:auto;display:block;margin-top:6px}
 .dose-svg .dose-line{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.2s ease .2s}
 .dose-svg .dose-dot{opacity:0;transition:opacity .3s ease,r .15s ease}
-.dose-svg .dose-dot:hover{r:7.5}
+
 .chart-on .dose-line{stroke-dashoffset:0}
 .chart-on .dose-dot{opacity:1}
 .bgroup{margin:16px 0}
@@ -272,7 +272,7 @@ details p{color:var(--ink2);margin:8px 0 0}
 @media (max-width:520px){.brow{grid-template-columns:38px 1fr 78px}}
 @media (prefers-reduced-motion:reduce){
   .dose-svg .dose-line{stroke-dashoffset:0;transition:none}
-  .dose-svg .dose-dot{opacity:1;transition:none}
+  .dose-svg .dose-dot{opacity:1;transition:none;animation:none}
   .bfill{width:var(--w);transition:none}
 }
 
@@ -297,6 +297,16 @@ details p{color:var(--ink2);margin:8px 0 0}
 #transition > .grid{margin-top:14px}
 
 @media (max-width:520px){#training .cardio-grid{grid-template-columns:1fr}}
+
+/* emoji micro-motion (2026-10-27): subtle bob on every emoji, off under reduced motion */
+.em-anim{display:inline-block;animation:em-bob 3.5s ease-in-out infinite}
+@keyframes em-bob{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-2px) rotate(-2deg)}}
+@media (prefers-reduced-motion:reduce){.em-anim{animation:none}}
+
+/* dose-dot random pulse rings (2026-10-27): one random dot pings about every 15s */
+.dose-ring{fill:none;stroke:#f43f5e;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:dose-ring 1s ease-out 1}
+@keyframes dose-ring{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){.dose-ring{animation:none}}
 </style>
 </head>
 <body>
@@ -461,15 +471,13 @@ details p{color:var(--ink2);margin:8px 0 0}
 <section id="nutrition" class="reveal">
   <div class="sec-head"><div class="badge">🍽️</div><div><h2>Prioritize Protein</h2><p>Convenient, affordable protein sources that help support muscle while weight comes down.</p></div></div>
   <div class="grid g3">
-    <div class="card"><div class="ic">🍗</div><h3>Chicken</h3><p>Versatile, affordable, easy to cook in batches. Costco rotisserie chicken is affordable.</p></div>
-    <div class="card"><div class="ic">🥚</div><h3>Eggs</h3><p>Cheap, quick, and easy to add to any meal. Very easy to eat — and they fill you up without eating much, while still giving you the benefits.</p></div>
-    <div class="card"><div class="ic">🧈</div><h3>Tofu</h3><p>Budget-friendly plant protein that takes on any flavour. You can look up dishes online — something simple is tofu in chili oil with rice.</p></div>
-    <div class="card"><div class="ic">🐟</div><h3>Fish</h3><p>Lean protein with a different flavour profile for variety. Fish is also a source of omega-3 fatty acids, vitamin D, and selenium — nutrients that support overall health as part of a balanced diet. On cost, canned options like tuna and sardines, and frozen fillets, keep it affordable.</p></div>
-    <div class="card"><div class="ic">🥩</div><h3>Steak</h3><p>Choose lean cuts like eye of round, and use a meat tenderizer — it breaks down the tough fibers in lean cuts so they come out tender. Leaner cuts are not as tasty as fatty cuts, but when you strike a fatty spot, it's much more satisfying than eating a steak that's already fatty.</p></div>
-    <div class="card"><div class="ic">🐖</div><h3>Pork</h3><p>Another everyday protein that keeps meals from getting boring. Lean cuts like pork loin and tenderloin are high in protein and provide B vitamins — especially thiamine — plus zinc and selenium. And pork is often cheaper per pound than beef, which makes it a budget-friendly staple.</p></div>
+    <div class="card"><div class="ic">🍗</div><h3>Chicken</h3><p>Versatile, affordable, easy to cook in batches. Costco rotisserie chicken is affordable.</p><video class="food-vid" muted loop playsinline preload="metadata" aria-label="Rotisserie chicken, looping" style="width:100%;height:auto;display:block;border-radius:12px;margin-top:12px" src="rotisserie-chicken-loop.mp4"></video></div>
+    <div class="card"><div class="ic">🥚</div><h3>Eggs</h3><p>Cheap, quick, and easy to add to any meal. Very easy to eat — and they fill you up without eating much, while still giving you the benefits.</p><video class="food-vid" muted loop playsinline preload="metadata" aria-label="A person's hand dipping a peeled boiled egg in salt and pepper, looping" style="width:100%;height:auto;display:block;border-radius:12px;margin-top:12px" src="eggs-hand-dip-loop.mp4"></video></div>
+    <div class="card"><div class="ic">🧈</div><h3>Tofu</h3><p>Budget-friendly plant protein that takes on any flavour. You can look up dishes online — something simple is tofu in chili oil with rice.</p><video class="food-vid" muted loop playsinline preload="auto" aria-label="Chopsticks picking up tofu and dipping it in chili oil, looping" style="width:100%;height:auto;display:block;border-radius:12px;margin-top:12px" src="tofu-chili-oil-loop.mp4"></video></div>
+    <div class="card"><div class="ic">🐟</div><h3>Fish</h3><p>Lean protein with a different flavour profile for variety. Fish is also a source of omega-3 fatty acids, vitamin D, and selenium — nutrients that support overall health as part of a balanced diet. On cost, canned options like tuna and sardines, and frozen fillets, keep it affordable.</p><video class="food-vid" muted loop playsinline preload="metadata" aria-label="Sashimi bowl of white tuna and salmon, looping" style="width:100%;height:auto;display:block;border-radius:12px;margin-top:12px" src="sashimi-bowl-loop.mp4"></video></div>
+    <div class="card"><div class="ic">🥩</div><h3>Steak</h3><p>Choose lean cuts like eye of round, and use a meat tenderizer — it breaks down the tough fibers in lean cuts so they come out tender. Leaner cuts are not as tasty as fatty cuts, but when you strike a fatty spot, it's much more satisfying than eating a steak that's already fatty.</p><video class="food-vid" muted loop playsinline preload="metadata" aria-label="Premium striploin steak with butter and rosemary being sliced, looping" style="width:100%;height:auto;display:block;border-radius:12px;margin-top:12px" src="striploin-slicing-loop.mp4"></video></div>
+    <div class="card"><div class="ic">🐖</div><h3>Pork</h3><p>Another everyday protein that keeps meals from getting boring. Lean cuts like pork loin and tenderloin are high in protein and provide B vitamins — especially thiamine — plus zinc and selenium. And pork is often cheaper per pound than beef, which makes it a budget-friendly staple.</p><video class="food-vid" muted loop playsinline preload="metadata" aria-label="Pork grilling at a Korean BBQ place, looping" style="width:100%;height:auto;display:block;border-radius:12px;margin-top:12px" src="korean-bbq-pork-loop.mp4"></video></div>
   </div>
-  <h3 style="margin-top:22px">A balanced plate has more than protein</h3>
-  <div class="macro-bar"><div class="p">Protein</div><div class="c">Carbohydrates</div><div class="f">Fats</div><div class="fi">Fiber</div></div>
     <div class="card" style="margin-top:16px"><div class="ic">🍞</div><h3>Carbs aren't the enemy — here's the science, simply</h3><p>Eating carbs 🍞 can still help you lose weight, because weight loss comes down to eating less energy than you burn 🔥, not to banning one food group 🚫 — and carbs fuel your workouts 🏋️, which is part of how the weight comes off. Here's what happens inside: your body stores spare carbs as glycogen 📦, tucked away in your muscles 💪 and liver, and it burns that stored glycogen first 🔥 when it needs quick energy. When you eat fewer carbs, those glycogen stores run low 📉 — and once they're depleted, your body has to find fuel somewhere else, so it starts tapping into fat storage. That's why lower-carb stretches can mean more fat loss 📉. One honest note: part of the fast early drop on low carbs is water 💧, because glycogen holds water with it — but once stores are low, more of the loss comes from fat.</p></div>
   <div class="grid g2" style="margin-top:16px">
     <div class="card"><div class="ic">🔇</div><h3>Food noise, muted</h3><p>Retatrutide muted food noise for me, so when I was hungry, making food choices felt easy. And the choice was simple: when you're hungry, reach for high protein.</p></div>
@@ -855,6 +863,84 @@ details p{color:var(--ink2);margin:8px 0 0}
   }, { threshold: 0.5 }).observe(btn);
   var chartObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('chart-on');chartObs.unobserve(e.target)}})},{threshold:.25});
   document.querySelectorAll('.chart').forEach(function(c){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){c.classList.add('chart-on')}else{chartObs.observe(c)}});
+})();
+</script>
+<script>
+/* wrap every emoji in a micro-motion span (2026-10-27); skipped under reduced motion */
+(function(){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var re = /\p{Extended_Pictographic}(?:\p{Emoji_Modifier}|\uFE0F)?(?:\u200D\p{Extended_Pictographic}(?:\p{Emoji_Modifier}|\uFE0F)?)*/gu;
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: function(n){
+      var p = n.parentNode;
+      if(!p) return NodeFilter.FILTER_REJECT;
+      var tag = p.nodeName;
+      if(tag === "SCRIPT" || tag === "STYLE" || tag === "TITLE" || tag === "TEXTAREA") return NodeFilter.FILTER_REJECT;
+      if(p.closest && p.closest("svg")) return NodeFilter.FILTER_REJECT;
+      re.lastIndex = 0;
+      return re.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+  var nodes = [];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  var i = 0;
+  nodes.forEach(function(n){
+    var frag = document.createDocumentFragment();
+    var last = 0;
+    n.nodeValue.replace(re, function(match, offset){
+      if(offset > last) frag.appendChild(document.createTextNode(n.nodeValue.slice(last, offset)));
+      var s = document.createElement("span");
+      s.className = "em-anim";
+      s.style.animationDelay = ((i % 12) * 0.28) + "s";
+      s.textContent = match;
+      frag.appendChild(s);
+      i++;
+      last = offset + match.length;
+      return match;
+    });
+    if(last < n.nodeValue.length) frag.appendChild(document.createTextNode(n.nodeValue.slice(last)));
+    n.parentNode.replaceChild(frag, n);
+  });
+})();
+</script>
+<script>
+/* random dose-dot pulse rings (2026-10-27): one random dot pings every 10-20s, avg 15s */
+(function(){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var svg = document.querySelector('.dose-svg');
+  if(!svg) return;
+  var dots = Array.prototype.slice.call(svg.querySelectorAll('.dose-dot'));
+  if(!dots.length) return;
+  function tick(){
+    var d = dots[Math.floor(Math.random()*dots.length)];
+    var ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    ring.setAttribute('cx', d.getAttribute('cx'));
+    ring.setAttribute('cy', d.getAttribute('cy'));
+    ring.setAttribute('r', '5.5');
+    ring.setAttribute('class', 'dose-ring');
+    svg.appendChild(ring);
+    ring.addEventListener('animationend', function(){ ring.remove(); }, {once:true});
+    setTimeout(tick, 10000 + Math.random()*10000);
+  }
+  var started = false;
+  var io = new IntersectionObserver(function(es){
+    if(!started && es[0].isIntersecting){ started = true; io.unobserve(svg); setTimeout(tick, 2000); }
+  }, {threshold:.25});
+  io.observe(svg);
+})();
+</script>
+<script>
+/* food videos: play when scrolled into view, pause when out of view (2026-10-27); reduced motion shows first frames */
+(function(){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var v = e.target;
+      if(e.isIntersecting){ var pr = v.play(); if(pr) pr.catch(function(){}); }
+      else { v.pause(); }
+    });
+  }, {threshold:.25});
+  document.querySelectorAll('.food-vid').forEach(function(v){ io.observe(v); });
 })();
 </script>
 </body>
